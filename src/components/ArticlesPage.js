@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 import React, { Component } from 'react';
 
+import cookie from 'cookie';
 
 class ArticlesPage extends Component {
   constructor(props) {
@@ -11,11 +12,11 @@ class ArticlesPage extends Component {
   }
 
   componentDidMount() {
-    fetch('/api/articles')
+    fetch('/api/articles?token=' + cookie.parse(document.cookie).token)
       .then(res => res.json())
       .then(json => {
         this.setState({
-          articles: json,
+          articles: json || [],
         });
       });
   }

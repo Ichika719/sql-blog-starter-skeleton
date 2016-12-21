@@ -8,6 +8,8 @@ import 'quill/dist/quill.snow.css';
 
 import './style.css';
 
+import cookie from 'cookie';
+
 class SingleArticlePage extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
@@ -24,7 +26,7 @@ class SingleArticlePage extends Component {
 
   componentDidMount() {
     const id = this.props.id;
-    fetch(`/api/articles/${id}`)
+    fetch(`/api/articles/${id}?token=` + cookie.parse(document.cookie).token)
       .then(res => res.json())
       .then(article => {
         this.setState({
@@ -37,7 +39,7 @@ class SingleArticlePage extends Component {
 
   componentDidUpdate() {
     const id = this.props.id;
-    fetch(`/api/articles/${id}`)
+    fetch(`/api/articles/${id}?token=` + cookie.parse(document.cookie).token)
       .then(res => res.json())
       .then(article => {
         this.setState({
@@ -91,7 +93,7 @@ class SingleArticlePage extends Component {
         content,
         tags,
       };
-      fetch(`/api/articles/${id}`, {
+      fetch(`/api/articles/${id}?token=` + cookie.parse(document.cookie).token, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'

@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     id: {
@@ -18,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
     },
+    token: {
+      type: DataTypes.STRING,
+    },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE,
@@ -32,6 +37,19 @@ module.exports = (sequelize, DataTypes) => {
 
       },
     },
+  });
+
+  User.beforeCreate((user, options, callback) => {
+    user.email = user.email.toLowerCase();
+    if (user.password) {
+      bcrypt.hash(user.get('password'), 10, (err, hash) => {
+        if (err) return callback(err);
+        user.set('password', hash);
+        return callback(null, options);
+      });
+    } else {
+      return callback(null, options);
+    }
   });
 
   return User;

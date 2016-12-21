@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import HomePage from './HomePage';
+import AuthPage from './AuthPage';
 import ArticlesPage from './ArticlesPage';
 import SingleArticlePage from './SingleArticlePage';
 import CreateArticlePage from './CreateArticlePage';
@@ -19,6 +20,10 @@ class App extends Component {
   }
 
   renderRoute() {
+    if (this.state.route === '/auth') {
+      return <AuthPage />;
+    }
+
     if (this.state.route === '/articles') {
       return <ArticlesPage />;
     }

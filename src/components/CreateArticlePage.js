@@ -6,6 +6,8 @@ import TagsInput from 'react-tagsinput';
 import 'react-tagsinput/react-tagsinput.css';
 import 'quill/dist/quill.snow.css';
 
+import cookie from 'cookie';
+
 class CreateArticlePage extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +28,7 @@ class CreateArticlePage extends Component {
     const confirm = window.confirm('確定要新增文章嗎？');
     if (confirm) {
       const body = this.state;
-      fetch('/api/articles', {
+      fetch('/api/articles?token=' + cookie.parse(document.cookie).token, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
